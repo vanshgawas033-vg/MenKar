@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MenKart</title>
+<h1>MenKart Store</h1>
+<button>Add to Cart</button>
+<button>Buy Now</button>
+</head>
+
+<body>
+
+<h2>Men's T-Shirt</h2>
+<p>Price: ₹999</p>
+
+<input type="text" placeholder="Enter Card Number">
+<button onclick="payment()">Pay</button>
+
+<script>
+function payment(){
+var card = document.querySelector("input").value;
+
+if(card == "1111 1111 1111 1111"){
+alert("Payment Successful");
+}
+else if(card == "2222 2222 2222 2222"){
+alert("Payment Failed");
+}
+else{
+alert("Invalid Card");
+}
+}
+</script>
+
+</body>
+</html>
