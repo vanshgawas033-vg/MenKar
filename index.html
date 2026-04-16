@@ -3,7 +3,7 @@
 <head>
 <title>MenKart</title>
 
-<!-- Microsoft Clarity Tracking Code -->
+<!-- Microsoft Clarity -->
 <script type="text/javascript">
 (function(c,l,a,r,i,t,y){
 c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -18,18 +18,27 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 
 <h1>MenKart Store</h1>
 
-<button>Add to Cart</button>
-<button>Buy Now</button>
+<button onclick="addToCart()">Add to Cart</button>
+<button onclick="buyNow()">Buy Now</button>
 
 <h2>Men's T-Shirt</h2>
 <p>Price: ₹999</p>
 
-<input type="text" placeholder="Enter Card Number">
+<input type="text" id="card" placeholder="Enter Card Number">
 <button onclick="payment()">Pay</button>
 
 <script>
+
+function addToCart(){
+alert("Product added to cart");
+}
+
+function buyNow(){
+alert("Proceeding to payment");
+}
+
 function payment(){
-var card = document.querySelector("input").value;
+var card = document.getElementById("card").value;
 
 if(card == "1111 1111 1111 1111"){
 alert("Payment Successful");
@@ -41,6 +50,7 @@ else{
 alert("Invalid Card");
 }
 }
+
 </script>
 
 </body>
