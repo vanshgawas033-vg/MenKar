@@ -1,59 +1,168 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MenKart</title>
+<title>MenKart Store</title>
+<style>
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #f4f4f4;
+}
 
-<!-- Microsoft Clarity Tracking Code -->
-<script type="text/javascript">
-(function(c,l,a,r,i,t,y){
-c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/YOUR_CLARITY_ID";
-y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", "YOUR_CLARITY_ID");
-</script>
+header {
+  background: black;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
 
+.container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.product {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+}
+
+button {
+  padding: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.cart {
+  background: white;
+  padding: 15px;
+  width: 300px;
+  border-radius: 10px;
+  height: fit-content;
+}
+
+.cart-item {
+  border-bottom: 1px solid #ddd;
+  padding: 5px 0;
+}
+
+.total {
+  font-weight: bold;
+  margin-top: 10px;
+}
+</style>
 </head>
 
 <body>
 
-<h1>MenKart Store</h1>
+<header>
+  <h1>MenKart Store</h1>
+</header>
 
-<button onclick="addToCart()">Add to Cart</button>
-<button onclick="buyNow()">Buy Now</button>
+<div class="container">
 
-<h2>Men's T-Shirt</h2>
-<p>Price: ₹999</p>
+  <!-- PRODUCTS -->
+  <div>
+    <h2>Products</h2>
 
-<br><br>
+    <div class="product">
+      <h3>Men T-Shirt</h3>
+      <p>Price: ₹999</p>
+      <button onclick="addToCart('Men T-Shirt', 999)">Add to Cart</button>
+      <button onclick="buyNow('Men T-Shirt', 999)">Buy Now</button>
+    </div>
 
-<input type="text" id="card" placeholder="Enter Card Number">
-<button onclick="payment()">Pay</button>
+    <div class="product">
+      <h3>Jeans</h3>
+      <p>Price: ₹1499</p>
+      <button onclick="addToCart('Jeans', 1499)">Add to Cart</button>
+      <button onclick="buyNow('Jeans', 1499)">Buy Now</button>
+    </div>
+
+    <div class="product">
+      <h3>Shoes</h3>
+      <p>Price: ₹1999</p>
+      <button onclick="addToCart('Shoes', 1999)">Add to Cart</button>
+      <button onclick="buyNow('Shoes', 1999)">Buy Now</button>
+    </div>
+
+  </div>
+
+  <!-- CART -->
+  <div class="cart">
+    <h2>Cart</h2>
+    <div id="cartItems"></div>
+    <p class="total">Total: ₹<span id="total">0</span></p>
+
+    <button onclick="checkout()">Checkout</button>
+    <button onclick="clearCart()">Clear Cart</button>
+  </div>
+
+</div>
 
 <script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function addToCart(){
-alert("Product added to cart");
-}
-
-function buyNow(){
-alert("Proceeding to payment");
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
 }
 
-function payment(){
-var card = document.getElementById("card").value;
-
-if(card == "1111 1111 1111 1111"){
-alert("Payment Successful");
-}
-else if(card == "2222 2222 2222 2222"){
-alert("Payment Failed");
-}
-else{
-alert("Invalid Card Number");
-}
+function addToCart(name, price) {
+  cart.push({ name, price });
+  saveCart();
+  alert(name + " added to cart!");
 }
 
+function buyNow(name, price) {
+  alert("Buying " + name + " for ₹" + price);
+}
+
+function renderCart() {
+  let cartItems = document.getElementById("cartItems");
+  let total = 0;
+
+  cartItems.innerHTML = "";
+
+  cart.forEach((item, index) => {
+    total += item.price;
+
+    cartItems.innerHTML += `
+      <div class="cart-item">
+        ${item.name} - ₹${item.price}
+        <button onclick="removeItem(${index})">X</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("total").innerText = total;
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  saveCart();
+}
+
+function clearCart() {
+  cart = [];
+  saveCart();
+}
+
+function checkout() {
+  if(cart.length === 0){
+    alert("Cart is empty!");
+    return;
+  }
+  alert("Order placed successfully! Total ₹" + document.getElementById("total").innerText);
+  cart = [];
+  saveCart();
+}
+
+renderCart();
 </script>
 
 </body>
